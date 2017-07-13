@@ -47,3 +47,11 @@ assert delim_check('[()]{}{[()()]()}') == True
 assert delim_check('[(abcd)]{efg}{h[i(j)k(l)m]n(o)p}qrstuvwxyz') == True
 assert delim_check('Hello World! I\'m (not) really here!') == True
 assert delim_check('}}{{') == False
+assert delim_check('))((') == False
+assert delim_check(']][[') == False
+assert delim_check('>><<') == False
+assert delim_check('([)]') == False
+assert delim_check('{(<"This is a test[(">)}') == True
+assert delim_check('{(<"[(This is a test">)}') == True
+assert delim_check('{(<"(This is a test">) and again: "("}') == True
+assert delim_check("{(<'(This is a test'>) and again: '('}") == True
