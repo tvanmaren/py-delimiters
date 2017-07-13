@@ -1,4 +1,5 @@
 def delim_check(str):
+    check_switch = True
     delim_vals = {
         '(': 0,
         '{': 0,
@@ -14,6 +15,13 @@ def delim_check(str):
     open_list = ['(', '{', '<', '[']
     last_open = []
     for char in str:
+        if check_switch == False:
+            if char == '"':
+                check_switch = True
+            continue
+        elif char == '"':
+            check_switch = False
+            continue
         if char in open_list:
             delim_vals[char] += 1
             last_open.append(char)
