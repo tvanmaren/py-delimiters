@@ -18,7 +18,7 @@ def delim_check(str):
             delim_vals[char] += 1
             last_open.append(char)
         elif char in close_dict:
-            if last_open.pop() == close_dict[char]:
+            if len(last_open) > 0 and last_open.pop() == close_dict[char]:
                 delim_vals[close_dict[char]] -= 1
             else:
                 return False
@@ -37,9 +37,13 @@ assert delim_check('[') == False
 assert delim_check('{') == False
 assert delim_check('(') == False
 assert delim_check('(())') == True
+assert delim_check('{{}}') == True
+assert delim_check('[[]]') == True
+assert delim_check('<<>>') == True
 assert delim_check('{<((<{(<>)}>))>}') == True
 assert delim_check('((())') == False
 assert delim_check('{{((<<))>>}}') == False
 assert delim_check('[()]{}{[()()]()}') == True
 assert delim_check('[(abcd)]{efg}{h[i(j)k(l)m]n(o)p}qrstuvwxyz') == True
 assert delim_check('Hello World! I\'m (not) really here!') == True
+assert delim_check('}}{{') == False
