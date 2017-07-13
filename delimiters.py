@@ -1,45 +1,34 @@
 def delim_check(str):
-    check_switch = True
-    delim_vals = {
-        '(': 0,
-        '{': 0,
-        '[': 0,
-        '<': 0,
-    }
+    open_list = ['(', '{', '<', '[']
     close_dict = {
         ')': '(',
         ']': '[',
         '>': '<',
         '}': '{',
     }
-    open_list = ['(', '{', '<', '[']
-    last_open = []
+    open_stack = []
+    check_switch = True
+
     for i in range(len(str)):
         char = str[i]
         if i > 0 and str[i-1] == '\\':
             continue
         if check_switch == False:
-            if (char == '"' and last_open[-1]=='"') or (char == "'" and last_open[-1]=="'"):
-                last_open.pop()
+            if (char == '"' and open_stack[-1]=='"') or (char == "'" and open_stack[-1]=="'"):
+                open_stack.pop()
                 check_switch = True
-            continue
         elif (char == '"' or char == "'"):
             check_switch = False
-            last_open.append(char)
-            continue
-        if char in open_list:
-            delim_vals[char] += 1
-            last_open.append(char)
+            open_stack.append(char)
+        elif char in open_list:
+            open_stack.append(char)
         elif char in close_dict:
-            if len(last_open) > 0 and last_open.pop() == close_dict[char]:
-                delim_vals[close_dict[char]] -= 1
+            if len(open_stack) > 0 and open_stack[-1] == close_dict[char]:
+                open_stack.pop()
             else:
                 return False
-    if len(last_open) > 0:
+    if len(open_stack) > 0:
         return False
-    for key, val in delim_vals.items():
-        if val != 0:
-            return False
 
     return True
 
@@ -74,3 +63,4 @@ assert delim_check("""{(<"(This is a test of ' escapism">)}""") == True
 assert delim_check("""{(<'(This is a test of " escapism'>)}""") == True
 assert delim_check('Hello World! I\\\'m (one) (awful> test case!') == False
 assert delim_check('Testing mismatch of " characters') == False
+assert delim_check("Testing mismatch of ' characters") == False
