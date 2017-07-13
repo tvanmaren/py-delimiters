@@ -36,3 +36,7 @@ assert delim_check('<') == False
 assert delim_check('[') == False
 assert delim_check('{') == False
 assert delim_check('(') == False
+assert delim_check('(())') == True
+assert delim_check('{<((<{(<>)}>))>}') == True
+assert delim_check('((())') == False
+assert delim_check('{{((<<))>>}}') == False
