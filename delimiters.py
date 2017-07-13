@@ -12,13 +12,13 @@ def delim_check(str):
         '}': '{',
     }
     open_list = ['(', '{', '<', '[']
-    last_open = ''
+    last_open = []
     for char in str:
         if char in open_list:
             delim_vals[char] += 1
-            last_open = char
+            last_open.append(char)
         elif char in close_dict:
-            if last_open == close_dict[char]:
+            if last_open.pop() == close_dict[char]:
                 delim_vals[close_dict[char]] -= 1
             else:
                 return False
