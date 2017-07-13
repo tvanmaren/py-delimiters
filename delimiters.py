@@ -14,13 +14,16 @@ def delim_check(str):
     }
     open_list = ['(', '{', '<', '[']
     last_open = []
-    for char in str:
+    for i in range(len(str)):
+        char = str[i]
+        if i > 0 and str[i-1] == '\\':
+            continue
         if check_switch == False:
             if (char == '"' and last_open[-1]=='"') or (char == "'" and last_open[-1]=="'"):
                 last_open.pop()
                 check_switch = True
             continue
-        elif char == '"' or char == "'":
+        elif (char == '"' or char == "'"):
             check_switch = False
             last_open.append(char)
             continue
@@ -67,4 +70,5 @@ assert delim_check('{(<"(This is a test">) and again: "("}') == True
 assert delim_check("{(<'(This is a test'>) and again: '('}") == True
 assert delim_check("""{(<"(This is a test of ' escapism">)}""") == True
 assert delim_check("""{(<'(This is a test of " escapism'>)}""") == True
-assert delim_check('Hello World! I\'m (not) (really> here!') == False
+assert delim_check('Hello World! I\\\'m (one) (awful> test case!') == False
+assert delim_check('Testing mismatch of " characters') == False
