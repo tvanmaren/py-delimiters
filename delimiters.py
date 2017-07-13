@@ -27,3 +27,12 @@ def delim_check(str):
             return False
 
     return True
+
+assert delim_check('()') == True
+assert delim_check('{}') == True
+assert delim_check('[]') == True
+assert delim_check('<>') == True
+assert delim_check('<') == False
+assert delim_check('[') == False
+assert delim_check('{') == False
+assert delim_check('(') == False
