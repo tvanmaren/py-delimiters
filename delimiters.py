@@ -44,23 +44,23 @@ assert delim_check('(())') == True
 assert delim_check('{{}}') == True
 assert delim_check('[[]]') == True
 assert delim_check('<<>>') == True
-assert delim_check('{<((<{(<>)}>))>}') == True
+assert delim_check('{<((<{(<This is balanced>)}>))>}') == True
 assert delim_check('((())') == False
-assert delim_check('{{((<<))>>}}') == False
-assert delim_check('[()]{}{[()()]()}') == True
+assert delim_check('{{((<<))This is out of order>>}}') == False
+assert delim_check('[()]{Everything matches here}{[()()]()}') == True
 assert delim_check('[(abcd)]{efg}{h[i(j)k(l)m]n(o)p}qrstuvwxyz') == True
-assert delim_check('Hello World! I\\\'m (not) really here!') == True
+assert delim_check('Hello World! Backslashes don\\\'t (often) pass!') == True
 assert delim_check('}}{{') == False
 assert delim_check('))((') == False
 assert delim_check(']][[') == False
 assert delim_check('>><<') == False
-assert delim_check('([)]') == False
-assert delim_check('{(<"This is a test[(">)}') == True
-assert delim_check('{(<"[(This is a test">)}') == True
-assert delim_check('{(<"(This is a test">) and again: "("}') == True
-assert delim_check("{(<'(This is a test'>) and again: '('}") == True
-assert delim_check("""{(<"(This is a test of ' escapism">)}""") == True
-assert delim_check("""{(<'(This is a test of " escapism'>)}""") == True
+assert delim_check('([)too soon?]') == False
+assert delim_check('{(<"[(These do not count">)}') == True
+assert delim_check("{(<'[(These do not count'>)}") == True
+assert delim_check('{(<"(escaped">) and again: "("}') == True
+assert delim_check("{(<'(escaped'>) and again: '('}") == True
+assert delim_check("""{(<"(Testing ' escapism in double quote">)}""") == True
+assert delim_check("""{(<'(Testing " escapism in single quote'>)}""") == True
 assert delim_check('Hello World! I\\\'m (one) (awful> test case!') == False
 assert delim_check('Testing mismatch of " characters') == False
 assert delim_check("Testing mismatch of ' characters") == False
