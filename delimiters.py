@@ -35,6 +35,8 @@ def delim_check(str):
                 delim_vals[close_dict[char]] -= 1
             else:
                 return False
+    if len(last_open) > 0:
+        return False
     for key, val in delim_vals.items():
         if val != 0:
             return False
